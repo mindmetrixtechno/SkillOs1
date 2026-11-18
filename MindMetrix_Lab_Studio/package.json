@@ -1,0 +1,1 @@
+{"name":"mindmetrix-lab-studio","private":true,"type":"module","scripts":{"dev":"vite --host 0.0.0.0","build":"node scripts/build.mjs","test":"node --test tests/config.test.mjs"},"dependencies":{"fflate":"0.8.2","pdf-lib":"1.17.1"},"devDependencies":{"@cloudflare/vite-plugin":"1.37.1","vite":"8.0.13","wrangler":"4.92.0"}}

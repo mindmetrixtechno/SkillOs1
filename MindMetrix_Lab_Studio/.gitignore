@@ -1,0 +1,10 @@
+node_modules/
+.wrangler/
+.dev.vars
+.env*
+!.env.example
+
+/dist/client/
+/dist/server/
+/dist/.openai/
+/.generated-public/

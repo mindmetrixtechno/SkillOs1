@@ -1,0 +1,171 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MindMetrix SkillOS</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f7fa;color:#122941;font:15px system-ui,sans-serif}a{color:#0961a1;text-decoration:none}button,select{font:inherit}button{cursor:pointer;border:1px solid #d6e3ed;background:#fff;color:#123551;border-radius:8px;padding:9px 13px;font-weight:650}button:hover{background:#e6f4f8}a:focus-visible,button:focus-visible,select:focus-visible{outline:3px solid #138fac;outline-offset:2px}.shell{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:100vh}aside{background:white;border-right:1px solid #dfe9ef;padding:24px 15px}.brand{display:flex;gap:11px;align-items:center;margin:0 0 32px 5px}.brand img{width:35px}.brand strong,.brand small{display:block}.muted,small{color:#50667a}nav{display:grid;gap:7px}nav a{padding:12px;border-radius:8px;color:#29465e;font-weight:650}nav a[aria-current]{background:#e2f1fa;color:#075994}header{display:flex;justify-content:space-between;gap:14px;align-items:center;background:white;border-bottom:1px solid #dfe9ef;padding:16px 25px}.contact{display:flex;gap:16px;flex-wrap:wrap}main{max-width:1170px;margin:auto;padding:26px}footer{text-align:center;padding:18px;color:#50667a;font-size:13px}.hero{border-radius:16px;padding:28px;background:linear-gradient(110deg,#0759a6,#006b84 59%,#007855);color:white}.hero p{margin:5px 0 18px}.hero a{color:white;background:#ffffff21;border:1px solid #ffffff55;padding:6px 10px;border-radius:7px}.flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}.card{background:white;border:1px solid #dde8ef;border-radius:13px;padding:20px;min-width:0;box-shadow:0 3px 8px #0f355108}.metrics,.three,.split{display:grid;gap:14px;margin-top:16px}.metrics{grid-template-columns:repeat(4,1fr)}.three{grid-template-columns:repeat(3,1fr)}.split{grid-template-columns:1.65fr 1fr}.metric b{display:block;font-size:28px;margin-top:4px}.badge{display:inline-block;background:#e1f4ed;color:#146248;border-radius:20px;padding:4px 9px;font-size:12px;font-weight:700}.warn{background:#fff0d7;color:#75480c}h1,h2,h3{margin:0 0 10px}h1{font-size:clamp(27px,4vw,39px);letter-spacing:-.04em}h2{font-size:19px}h3{font-size:16px}p{line-height:1.55}.row{padding:11px 0;border-top:1px solid #e4ecf2}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:12px;white-space:nowrap;border-bottom:1px solid #e5edf2}th{color:#50667a;font-size:13px}.head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.primary{background:#0965a6;color:white;border-color:#0965a6}.primary:hover{background:#074e80}.note{margin-top:14px;padding:13px;background:#eaf6f1;border-radius:9px}.bar{height:9px;background:#e5edf5;border-radius:8px;overflow:hidden;margin:6px 0 15px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#0b67aa,#158362)}.bubble{padding:13px;border-radius:10px;background:#edf4fb;margin:10px 0}.bubble.reply{background:#e8f5ef}.examples{display:flex;gap:8px;flex-wrap:wrap}svg{width:100%;height:auto;display:block}select{padding:7px;border:1px solid #c9d9e5;border-radius:7px;color:#122941;background:white}@media(max-width:850px){.shell{grid-template-columns:1fr}aside{padding:14px}nav{display:flex;flex-wrap:wrap}.brand{margin-bottom:10px}header{flex-wrap:wrap}.split,.three{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}main{padding:17px}}@media(max-width:450px){.metrics{gap:8px}.metric{padding:12px}}
+.grade-menu{display:grid;gap:4px;padding-left:14px;margin:0 0 5px}.grade-menu a{padding:8px 12px;font-size:14px}.class-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}.class-tabs a{padding:9px 13px;border:1px solid #d6e3ed;border-radius:8px;background:white;font-weight:650}.class-tabs a[aria-current]{background:#0965a6;color:white}.robot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;max-width:360px;margin:16px 0}.robot-cell{display:grid;place-items:center;aspect-ratio:1.3;background:#edf4fa;border-radius:8px;color:#244863;font-weight:700}.robot-cell.goal{background:#d9f0e4}.robot-cell.current{background:#0965a6;color:white}.rover-track{position:relative;height:135px;margin:16px 0;border:1px solid #d6e3ed;border-radius:12px;background:linear-gradient(90deg,#f3f7fa 48%,#20344a 48% 52%,#f3f7fa 52%)}#rover-motion{position:absolute;left:50%;bottom:15px;translate:-50% 0;background:#0965a6;color:white;border-radius:8px;padding:9px 15px;transition:transform .35s}#rover-motion[data-action="Left"]{transform:translate(-40px,-32px) rotate(-35deg)}#rover-motion[data-action="Right"]{transform:translate(40px,-32px) rotate(35deg)}#rover-motion[data-action="Forward"]{transform:translateY(-55px)}#rover-motion[data-action="Stop"]{background:#a53932}#rover-form input{width:100px;padding:7px;border:1px solid #c9d9e5;border-radius:7px;font:inherit}.reader{text-align:center}.reader img{display:block;width:min(100%,850px);margin:14px auto;user-select:none}.reader select{max-width:100%}.sim-frame{width:100%;height:80vh;border:1px solid #dce4ef;border-radius:10px}@media print{body{display:none!important}}.workbook-full{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border:0;padding:0;background:#edf2f7;color:#172d42}.workbook-full[open]{display:flex;flex-direction:column}.reader-toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center;padding:10px;background:white;border-bottom:1px solid #cedbe8}.reader-scroll{flex:1;overflow:auto}.reader-scroll img{width:min(100%,1150px);max-width:none;height:auto}@media print{.workbook-full{display:none!important}}.maker-hero{background:#e5f3ed;border-color:#bad9cb}.maker-hero img{width:100%;border-radius:10px}.maker-grid{display:grid;grid-template-columns: repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}.maker-grid textarea,.maker-grid input{width:100%;font:inherit;padding:8px;margin:5px 0;border:1px solid #b2c5d3;border-radius:7px}.maker-grid label{display:block}.maker-grid .card{margin:0}.maker-grid textarea{min-height:78px}.maker-actions{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}.lab-choice{display:block;text-decoration:none;color:inherit}.lab-choice img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:9px}.lab-choice:hover{outline:2px solid #218265}.lab-parts button{text-align:left}.lab-parts img{display:block;width:100%;height:100px;object-fit:contain}.lab-parts [aria-pressed=true]{outline:2px solid #218265}body.signed-out .shell{display:none}body:not(.signed-out) #welcome{display:none}#welcome{min-height:100vh;display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);align-items:center;gap:24px;padding:clamp(18px,5vw,70px);background:#eaf4ef}.welcome-copy h1{font-size:clamp(38px,6vw,80px);margin:16px 0 0}.welcome-copy>p:first-of-type{font-size:26px;font-weight:750}.welcome-images{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.welcome-images figure{margin:0;background:white;border-radius:10px;overflow:hidden}.welcome-images img{width:100%;aspect-ratio:4/3;object-fit:cover}.welcome-images figcaption{padding:7px}#skill-login label{display:grid;gap:5px;margin:14px 0}#skill-login input{padding:10px;border:1px solid #bcced4;border-radius:7px;font:inherit}.account-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}@media(max-width:800px){#welcome{grid-template-columns:1fr}}</style></head><body class="signed-out"><section id="welcome"><div class="welcome-copy"><label>Language / भाषा <select data-ui-language><option value="en">English</option><option value="hi">हिन्दी</option></select></label><h1>MindMetrix SkillOS</h1><p>Learn by making.</p><p>Explore a kit, test an idea in a simulator, then build and improve it in your school lab.</p><div class="welcome-images"><figure><img src="simulators/grade-6/finished-system.jpg" alt="Farmer’s Buddy"><figcaption>Farmer’s Buddy</figcaption></figure><figure><img src="simulators/grade-7/rover.jpg" alt="Mission Rover"><figcaption>Mission Rover</figcaption></figure><figure><img src="simulators/grade-8/room.jpg" alt="SmartSpace"><figcaption>SmartSpace</figcaption></figure></div></div><form id="skill-login" class="card"><h2>Sign in to SkillOS</h2><label>User ID <input name="user" autocomplete="username" required></label><label>Password <input name="password" type="password" autocomplete="current-password" required></label><button class="primary">Sign in</button><p id="login-error" role="status"></p><small>Demo sign-in</small></form></section><div class="shell"><aside><div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAZCAIAAABPfsIJAAAExklEQVR4nK2VWWyUVRTHz7n3W2YtM20HakGpU1pAdtv4QKohTYzIEmMIGhEkLBFffNDgC0/6gAI+1AeXxI0oGiKCmpi6VTaBili07CAMDKUzbafTWTrffPOt9/gwYMcmJkZ7Hs9Nfjn3/P/nHCQimNCQXNedQBznnE0grhwMAEol+/ylpKYZ/w1hukai0K/b+hixoFvbOrqf2rz72Ikrpmn/exYRDWnJt3tfe/X4y8PF4XJSAgACHIVAd9z8ZcsXK9ujWzYsnt08JeCTEfGfWLZrpfTBo4nOzuTui7fSjb6FBGKMCMjIE6QaX84f3nsodvTMd8sfbnpy+cx5zTUBnzIOK0gk84ljiYOHh75KWBeSQ46mMxYAAKwgAoLqJx9QOGIHqvr6Y+9+3d95Wlv+0LR1S++ZPyOkyKz8xxFtpOvKwS9j+wbpKsmFXAZLJuMyYIXA5RoRFQ94GXi8VFMLAb9z/Vp8RLzzbXr/KX1te+TFVXeHguz4hZMdXW9d1M9KQdsTIF1DR6Ck0rjWSACAriMNxPiA7UamgqeOGqKoStCXEEweKkod3xcP/BZb/6B0a/DEjXjSkFzJgVIGiCHzAnEQDMgBoMoaSfBsWr3cZ10+5FbJ4TmLwvPbblKtk9KBcyEp8YKy60eaHVnR1jxnIN8Zy/aGQsEiamlz2EV08q5uOMKhMfeUW4nML9MUaTAXTfV8uFLa1JwLa1ewmAaOoCol7uvNhA6cj7r59h2rtnes2TUj1GRn3HyPnjlZsktwR+oykQiIiACZV/ZGfd6pcxuq39i65IOXFs4cPczPfQZGCmRJuHowc+65FXOXLW5vnNwgEiJ7TNPiljpdlYL8jtRlIufgDQICkCDgyAKAWDRcf9309998duOS2kjP28Eb3zzqO/3e1vsCdSMFo0CC7LwDCoZb/d6pcqXDJAAAJrmRGe5kCdNxtJ1y+ZlRe9tHyfuj8vpNjy97pOXy9cF5rZGuxOfdp7r3rN0dYAGmsklzVH+DVIybetYkiyqVAULJCd3FJIml/ii/EMFQ1t5zpNBzsf+VZ6KzWws7f9hxrXjVH1SBABl66yW5D0aOamZBiEUCeWWNAOCaYJeErFBNPXn0sgHA0kzd6o2Nvv7xr7Pmnv49dpb7UeVyeaVaQ07655KQ0F/H61pl7q2YGSJBtg5mAcgkYQpFAUAAF4wsGDYJXdggXHINIiKbEQggl+yCKwg8Nby+TVHCY0MjAQACoV1EKw9kkVMERwUgEAJKaShZCA44KplCFAVZ4JAgAYCADJUqXtOiYoBZJtA4h6NdACMLZKNbRDt4O1nKYLFEKMgMClO4BRc4uMIhQQjA/dzf5CGJl3JgeZHG+9EcZUbW6+ZaGtUXNi/2eZVIbWDDY7Pq/YZsptHKgSmgSNVs0pq21ZMnRYKBqi1rNrQ2toCmWDmwCvQXER3HSQ2Pbnr+k3RGW/dEy4qlC6bVVzPGAMAwrDPn45/uP5IaSDbMpMFsauPqtQ8saPGonvIqGs6nu84e2tu9z6t4dj69PTqlgXOOjuNomvFT96WmaF3D9IgsS1ARRDRa0AcGhlUPBIPB6nA1+/u+FELcSvfHh27Ov3deOBC6TSQiIej/XDFBAgERkXOOE36v/wQ0RIjPbymlNgAAAABJRU5ErkJggg==" alt="MindMetrix logo"><div><strong>MindMetrix SkillOS</strong><small>MindMetrix Labs</small></div></div><nav aria-label="Main navigation" id="nav"></nav></aside><div><header><span class="badge">Prototype · Demo data</span><div class="contact"><a href="https://mindmetrixlabs.com">mindmetrixlabs.com</a><a href="mailto:info@mindmetrixlabs.com">info@mindmetrixlabs.com</a></div></header><main id="app"></main><footer>MindMetrix Labs is an education initiative of MindMetrix Techno Private Limited.</footer></div></div>
+<link rel="stylesheet" href="config.css"><script src="config.js"></script><script src="published.js"></script><script src="interface.js"></script><script src="workbooks/catalog.js"></script><script src="workbooks/reader.js"></script><script src="maker.js"></script><script src="lab-language.js"></script><script src="lab-projects.js"></script><script>
+const sections={'dashboard':'Dashboard','curriculum':'Curriculum','skill-labs':'Skill Labs','students':'Students','analytics':'Analytics','ai-assistant':'AI Assistant','configuration':'Configuration'};
+const labs=[
+ {name:'Robotics Lab',status:'Active',activity:'Line-following robot',session:'Mon 10:00 · Grade 8',guide:'Sketch a track, test a sensor threshold and record where the robot leaves the line.',student:0},
+ {name:'AI Lab',status:'Active',activity:'Waste sorting classifier',session:'Tue 11:30 · Grade 9',guide:'Label sample images, test the classifier on unseen examples and explain a mistake.',student:1},
+ {name:'Electronics Lab',status:'Maintenance',activity:'Build a night lamp',session:'Thu 09:00 · Grade 7 · Provisional',guide:'Predict how light affects the circuit and compare your prediction with the result.',student:2}
+];
+const students=[
+ {name:'Anaya Rao',grade:8,project:'Line-following robot',skill:'Robotics & debugging',progress:82},
+ {name:'Vihaan Mehta',grade:9,project:'Waste sorting classifier',skill:'Data labelling & evaluation',progress:74},
+ {name:'Isha Nair',grade:7,project:'Build a night lamp',skill:'Circuit design & testing',progress:69},
+ {name:'Kabir Das',grade:8,project:'Sensor calibration',skill:'Measurement & iteration',progress:76}
+];
+const curriculum=[
+ [6,'Computational Thinking','Sequences & directions','Guide a robot to its goal',null],
+ [7,'Robotics','Sensors & steering','Autonomous Mission Rover',null],
+ [8,'Robotics','Sensors & signals','Line-following robot',0],
+ [9,'Artificial Intelligence','Data & classification','Waste sorting classifier',1]
+];
+const questions=['Suggest a skill lab activity','Create a learning activity','Identify skill gaps'];
+const answers=['Try the Grade 8 line-following robot challenge. Ask teams to test two sensor thresholds and record which one stays on track.','Run a Grade 9 classification activity. Have teams label ten sample images, test three unseen images and explain one incorrect result.','In the demo data, Grade 7 has the lowest average progress at 69%. Try a short circuit-testing activity where students explain how they found a fault.'];
+const pageTitle=(title,description)=>'<h1>'+title+'</h1><p class="muted">'+description+'</p>';
+const bar=(label,value)=>'<div><strong>'+label+'</strong> <small>'+value+'%</small><div class="bar" role="meter" aria-label="'+label+'" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+value+'"><i style="width:'+value+'%"></i></div></div>';
+function trend(){
+ return `<svg viewBox="0 0 470 200" role="img" aria-label="Demo skill progress rises from 38 percent in April to 76 percent in August"><defs><linearGradient id="area" x2="0" y2="1"><stop stop-color="#61b6d6" stop-opacity=".45"/><stop offset="1" stop-color="#90d3b6" stop-opacity=".12"/></linearGradient></defs><path d="M42 28H450 M42 71H450 M42 114H450 M42 157H450" stroke="#dce8f0"/><path d="M42 157 L42 108 L144 94 L246 83 L348 70 L450 59 L450 157 Z" fill="url(#area)"/><polyline points="42,108 144,94 246,83 348,70 450,59" fill="none" stroke="#0965a6" stroke-width="3"/><g font-size="12" fill="#50667a"><text x="3" y="32">100%</text><text x="12" y="118">33%</text><text x="19" y="160">0%</text><text x="42" y="181">Apr</text><text x="138" y="181">May</text><text x="240" y="181">Jun</text><text x="340" y="181">Jul</text><text x="424" y="181">Aug</text></g></svg>`;
+}
+function dashboard(){
+ const flow=[['Curriculum','#curriculum'],['Learning Activity','#skill-labs/0'],['Student Project','#students/0'],['Skill Development','#students/0/skills'],['Analytics','#analytics']];
+ const metrics=[['Students',students.length],['Teachers',3],['Skill Labs',labs.length],['Active Projects',students.length]];
+ return '<section class="hero"><h1>MindMetrix SkillOS</h1><p>AI-Powered Skill Lab Platform</p><div class="flow">'+flow.map(([label,url])=>'<a href="'+url+'">'+label+'</a>').join('<span aria-hidden="true">→</span>')+'</div></section><div class="metrics">'+metrics.map(([label,value])=>'<div class="card metric"><small>'+label+'</small><b>'+value+'</b></div>').join('')+'</div><div class="split"><section class="card"><h2>Skill Development Overview</h2>'+trend()+'</section><section class="card"><h2>Recent Activities</h2>'+['Anaya recorded a robot track test','Vihaan labelled sample images','Isha submitted a circuit sketch','Kabir adjusted a sensor threshold'].map(item=>'<div class="row">'+item+'</div>').join('')+'</section></div>';
+}
+function planning(grade,tab){
+ if(grades.includes(grade))return gradePage(grade,tab)+(tab==='workbook'||!tab?'<div id="workbook-reader" class="card reader" data-grade="'+grade+'"></div>':'');
+
+ return pageTitle('Curriculum','Connect a module to a practical lab activity.')+'<section class="card"><h2>Classwise Curriculum</h2><div class="class-tabs">'+grades.map(g=>'<a href="#curriculum/'+g+'/workbook">Grade '+g+' →</a>').join('')+'</div></section><section class="card" style="margin-top:14px"><div class="head"><h2>Planning Board</h2><label>Grade <select id="grade"><option>7</option><option selected>8</option><option>9</option></select></label><button class="primary" id="plan">AI-Assisted Planning</button></div><div id="recommendation" role="status"></div><div class="table-wrap"><table><thead><tr><th>Grade</th><th>Learning Area</th><th>Module</th><th>Activity</th></tr></thead><tbody>'+curriculum.map(([grade,area,module,activity,lab])=>'<tr><td>Grade '+grade+'</td><td>'+area+'</td><td>'+module+'</td><td><a href="'+(lab===null?'#curriculum/'+grade+'/workbook':'#skill-labs/'+lab)+'">'+activity+' →</a></td></tr>').join('')+'</tbody></table></div></section>';
+}
+const grades=['6','7','8'];
+const gradeTabs={workbook:'Workbook',simulator:'Simulator'};
+let threshold=50;
+let commands=[], robot=0, result='Add directions to get started.';
+const movements={Up:-4,Right:1,Down:4,Left:-1};
+function gradePage(grade,tab){
+ const current=Object.hasOwn(gradeTabs,tab)?tab:'workbook';
+ const base='#curriculum/'+grade+'/';
+ const tabs='<nav class="class-tabs" aria-label="Grade '+grade+' resources">'+Object.entries(gradeTabs).map(([key,label])=>'<a href="'+base+key+'" '+(key===current?'aria-current="page"':'')+'>'+label+'</a>').join('')+'</nav>';
+ const wrap=(topic,body)=>'<p><a href="#curriculum">← Classwise Curriculum</a></p>'+pageTitle('Grade '+grade,topic)+tabs+'<section class="card">'+body+'</section>';
+ const labNames={'6':'Farmer’s Buddy','7':'Autonomous Mission Rover','8':'SmartSpace'};
+ if(current==='simulator')return wrap(labNames[grade],'<iframe class="sim-frame" title="'+labNames[grade]+' simulator" src="simulators/grade-'+grade+'/index.html"></iframe>');
+ if(grade==='7'){
+  return wrap('Robotics · Autonomous Mission Rover',current==='workbook'
+   ? '<span class="badge">Workbook companion</span><h2>Autonomous Mission Rover</h2><p>Two downward-facing IR sensors read the track. An ultrasonic sensor estimates the distance to an obstacle ahead. Predict which way the rover will move, then test your prediction.</p><p class="muted">Based on the Grade 7 Robotics & AI workbook activities on path following and obstacle stops.</p><a href="'+base+'simulator">Test the rover →</a>'
+   : '<div class="note"><h2>Autonomous Mission Rover Lab</h2><p>Run a rover mission on a prepared track and see how sensor readings affect its decisions.</p><a href="#simulator/7">Launch Mission Rover Lab ↗</a><p class="muted">Opens inside SkillOS.</p></div>'+roverSimulator());
+ }
+ if(grade==='8'){
+  return wrap('Robotics · Sensors & Signals',current==='workbook'
+   ? '<span class="badge">View-only sample</span><h2>Line-following robot</h2><p>A line sensor can compare a reading with a threshold to decide whether it sees a dark line. Predict what happens to the same reading when the threshold changes.</p><a href="'+base+'simulator">Try the simulator →</a>'
+   : '<div class="note"><h2>MindMetrix SmartSpace Lab</h2><a href="#simulator/8">Launch SmartSpace Lab ↗</a><p class="muted">Opens inside SkillOS.</p></div><h2 style="margin-top:18px">Line Sensor Simulator</h2><p>Test a fixed demo reading of 45. The sensor reports dark when the reading is below the threshold.</p><label>Threshold <select id="threshold">'+[30,45,50,70].map(value=>'<option '+(threshold===value?'selected':'')+'>'+value+'</option>').join('')+'</select></label><p class="note" role="status">Sensor detects '+(45<threshold?'a dark line':'a light surface')+'.</p>');
+ }
+ const simulator='<h2>Robot Path Simulator</h2><p>Add directions, then run the sequence. Reach the goal without leaving the grid.</p><div class="robot-grid" role="img" aria-label="4 by 4 grid. Robot at row '+(Math.floor(robot/4)+1)+', column '+(robot%4+1)+'. Goal at row 4, column 4.">'+Array.from({length:16},(_,i)=>'<div class="robot-cell '+(i===15?'goal ':'')+(i===robot?'current':'')+'">'+(i===robot?'Robot':i===15?'Goal':i===0?'Start':'')+'</div>').join('')+'</div><div class="examples">'+Object.keys(movements).map(key=>'<button data-move="'+key+'">'+key+'</button>').join('')+'<button id="run-robot" class="primary">Run</button><button id="reset-robot">Reset</button></div><p><strong>Sequence</strong> · '+(commands.join(' → ')||'Empty')+'</p><p class="note" role="status">'+result+'</p><a href="#curriculum/6/activity">Hands-on practice →</a>';
+ const activity='<h2>Run your route on a real grid</h2><p><strong>Materials</strong> · A sheet of paper, a pencil and a counter.</p><ol><li>One partner writes a route. The other follows it one move at a time using the counter.</li><li>Compare the counter’s position after the third move with your workbook prediction.</li><li>If the route fails, circle the first instruction that went wrong. Fix it and test again.</li></ol><p class="note"><strong>Show your work</strong> · Submit your first route, corrected route and one sentence explaining what changed.</p><a href="#curriculum/6/simulator">Return to the simulator →</a>';
+ return wrap('Robotics & AI · Gordon — Farmer’s Buddy',tab==='activity'?activity:current==='workbook'?'<h2>Gordon — Farmer’s Buddy</h2><p>Explore the Grade 6 Robotics &amp; AI workbook capstone: sense the soil, decide when it is dry, and water in short doses.</p><a href="#curriculum/6/simulator">Open Grade 6 simulators →</a>': '<div class="note"><h2>Farmer’s Buddy Lab</h2><p>Explore the workbook activities and test Gordon’s watering rule.</p><a href="#simulator/6">Launch Farmer’s Buddy Lab ↗</a><p class="muted">Opens inside SkillOS.</p></div>'+simulator);
+}
+function roverDecision(left,right,distance){
+ if(distance===''||!Number.isFinite(Number(distance)))return ['Stop','No valid echo.'];
+ if(Number(distance)<=20)return ['Stop','Obstacle at or within the example 20 cm stop distance.'];
+ if(left==='black'&&right==='black')return ['Stop','Both sensors see black. Check the track.'];
+ if(left==='black')return ['Left','The left sensor sees black. Correct left.'];
+ if(right==='black')return ['Right','The right sensor sees black. Correct right.'];
+ return ['Forward','Both sensors see white. The rover may be centred or may have lost the line.'];
+}
+function roverSimulator(){
+ const sensor=name=>'<label>'+name+' IR sensor <select name="'+name.toLowerCase()+'"><option value="white">White</option><option value="black">Black</option></select></label>';
+ return '<h2>Autonomous Mission Rover Simulator</h2><p>Set the two track readings and the obstacle distance. Predict the movement, then test one decision.</p><form id="rover-form"><div class="examples">'+sensor('Left')+sensor('Right')+'<label>Ultrasonic distance (cm) <input type="number" name="distance" min="0" max="400" value="30" placeholder="No echo"></label><button class="primary">Test decision</button></div></form><div class="rover-track" aria-hidden="true"><span id="rover-motion">▲</span></div><p class="note" id="rover-result" role="status">Set the readings and test a decision.</p><p class="muted">Try left black and right white at 30 cm. Keep those readings and change the distance to 15 cm. Leave distance blank to test a missing echo. This demo uses calibrated black/white readings and shows one decision at a time.</p>';
+}
+function runRobot(){
+ robot=0;
+ for(const [index,direction] of commands.entries()){
+  const next=robot+movements[direction];
+  if(next<0||next>15||(direction==='Left'&&robot%4===0)||(direction==='Right'&&robot%4===3)){
+   result='Stopped at move '+(index+1)+'. The robot would leave the grid.';render();return;
+  }
+  robot=next;
+ }
+ result=robot===15?'Goal reached! Compare this run with your prediction.':commands.length?'The robot stopped before reaching the goal. Adjust your sequence and try again.':'Add directions before running.';
+ render();
+}
+function labPage(id){
+ if(id==="smartspace")return makerWorkspace();
+ if(id!==undefined&&labs[id]){
+  const lab=labs[id];
+  return '<p><a href="#skill-labs">← All skill labs</a></p>'+pageTitle(lab.name,lab.session)+'<section class="card"><span class="badge '+(lab.status==='Maintenance'?'warn':'')+'">'+lab.status+'</span><h2 style="margin-top:12px">'+lab.activity+'</h2><p>'+lab.guide+'</p><a href="#students/'+lab.student+'">View student project →</a></section>';
+ }
+ return pageTitle('Skill Labs','Choose a project, make it, and show what you improved.')+makerBoard()+'<div class="three">'+labs.map((lab,i)=>'<section class="card"><div class="head"><h2><a href="#skill-labs/'+i+'">'+lab.name+'</a></h2><span class="badge '+(lab.status==='Maintenance'?'warn':'')+'">'+lab.status+'</span></div><p><small>Current Activity</small><br>'+lab.activity+'</p><p><small>Upcoming Session</small><br>'+lab.session+'</p><a href="#skill-labs/'+i+'">View lab →</a></section>').join('')+'</div>';
+}
+function studentPage(id,focus){
+ if(id!==undefined&&students[id]){
+  const s=students[id];
+  const project='<div class="row"><small>Student project</small><h3>'+s.project+'</h3></div>';
+  const skill='<div class="row"><small>Skill development</small><h3>'+s.skill+'</h3>'+bar('Skill progress',s.progress)+'</div>';
+  return '<p><a href="#students">← All students</a></p>'+pageTitle(s.name,'Grade '+s.grade+' · Fictional demo profile')+'<section class="card">'+(focus==='skills'?skill+project:project+skill)+'<a href="#analytics">View school analytics →</a></section>';
+ }
+ return pageTitle('Students','Explore fictional student projects and skill progress.')+'<div class="card table-wrap"><table><thead><tr><th>Student</th><th>Grade</th><th>Projects</th><th>Skill Progress</th></tr></thead><tbody>'+students.map((s,i)=>'<tr><td><a href="#students/'+i+'">'+s.name+'</a></td><td>'+s.grade+'</td><td>'+s.project+'</td><td>'+bar(s.progress+'% progress',s.progress).replace('<small>'+s.progress+'%</small>','')+'</td></tr>').join('')+'</tbody></table></div>';
+}
+function analytics(){
+ const avg=xs=>Math.round(xs.reduce((sum,s)=>sum+s.progress,0)/xs.length);
+ return pageTitle('Analytics','Review the demo cohort’s project completion and skill progress.')+'<div class="three"><section class="card"><h2>Skill Progress</h2>'+bar('Average skill progress',avg(students))+'</section><section class="card"><h2>Project Completion</h2>'+bar('Completed projects',75)+'<small>3 of 4 demo projects completed</small></section><section class="card"><h2>Grade-wise Progress</h2>'+[7,8,9].map(grade=>bar('Grade '+grade,avg(students.filter(s=>s.grade===grade)))).join('')+'</section></div>';
+}
+function assistant(){
+ return pageTitle('SkillOS Intelligence Assistant','Try a sample question about practical learning.')+'<section class="card"><span class="badge">Prototype AI — Demonstration</span><div class="bubble">How can I help with your next skill lab session?</div><div class="examples">'+questions.map((q,i)=>'<button data-question="'+i+'">'+q+'</button>').join('')+'</div><div id="conversation" aria-live="polite"></div></section>';
+}
+function render(){
+ if(!skillSignedIn())return;
+ let [route,id,focus,project,detail]=location.hash.slice(1).split('/');
+ if(route==='simulator'&&grades.includes(id)){route='curriculum';focus='simulator'}
+ const page=Object.hasOwn(sections,route)?route:'dashboard';
+ const gradeMenu='<div class="grade-menu" role="group" aria-label="Curriculum grades">'+grades.map(grade=>'<a href="#curriculum/'+grade+'/workbook" '+(page==='curriculum'&&id===grade?'aria-current="page"':'')+'>Grade '+grade+'</a>').join('')+'</div>';
+ nav.innerHTML=Object.entries(sections).map(([key,label])=>'<a href="#'+key+'" '+(key===page&&!(key==='curriculum'&&grades.includes(id))?'aria-current="page"':'')+'>'+label+'</a>'+(key==='curriculum'?gradeMenu:'')).join('');
+ const screens={dashboard,curriculum:()=>planning(id,focus),'skill-labs':()=>labDirectory(id,focus,project,detail),students:()=>studentPage(id,focus),analytics,'ai-assistant':assistant,'configuration':configurationPage};
+ app.innerHTML=screens[page]();
+ if(page==='configuration')mountConfiguration();
+ if(page==='curriculum'||page==='skill-labs')mountPublishedProjects(page,id,focus,project);
+ mountWorkbook(document.getElementById("workbook-reader"));
+ mountLabProject();mountLabStructure();
+ if(document.getElementById("maker-record"))mountMaker();
+ translateSkillOS();
+ document.title=sections[page]+' · MindMetrix SkillOS';
+ app.querySelectorAll('[data-move]').forEach(button=>button.onclick=()=>{
+  if(commands.length>=20){result='Sequence limit reached. Reset to try a new route.';render();return}
+  commands.push(button.dataset.move);
+  result='Direction added. Run to test the sequence.';
+  render();
+ });
+ const run=document.getElementById('run-robot');
+ if(run){
+  run.onclick=runRobot;
+  document.getElementById('reset-robot').onclick=()=>{commands=[];robot=0;result='Add directions to get started.';render()};
+ }
+ const roverForm=document.getElementById('rover-form');
+ if(roverForm)roverForm.onsubmit=event=>{
+  event.preventDefault();
+  const data=new FormData(roverForm);
+  const decision=roverDecision(data.get('left'),data.get('right'),data.get('distance'));
+  document.getElementById('rover-result').textContent=decision.join(' · ');
+  document.getElementById('rover-motion').dataset.action=decision[0];
+ };
+ const control=document.getElementById('threshold');
+ if(control)control.onchange=()=>{threshold=Number(control.value);render();document.getElementById('threshold').focus()};
+ const plan=document.getElementById('plan');
+ if(plan)plan.onclick=()=>{
+  const row=curriculum.find(item=>item[0]===Number(document.getElementById('grade').value));
+  if(row[4]===null){
+   document.getElementById('recommendation').innerHTML='<div class="note"><strong>Prototype AI</strong><p>Ask students to predict the rover’s movement before testing sensor readings.</p><a href="#curriculum/'+row[0]+'/simulator">Open '+row[3]+' →</a></div>';
+   return;
+  }
+  document.getElementById('recommendation').innerHTML='<div class="note"><strong>Prototype AI</strong><p>'+labs[row[4]].guide+'</p><a href="#skill-labs/'+row[4]+'">Open '+row[3]+' →</a></div>';
+ };
+ app.querySelectorAll('[data-question]').forEach(button=>button.onclick=()=>{
+  const i=Number(button.dataset.question);
+  document.getElementById('conversation').innerHTML+='<div class="bubble"><strong>You</strong><br>'+questions[i]+'</div><div class="bubble reply"><strong>Prototype AI</strong><br>'+answers[i]+'</div>';
+ });
+ window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',render);
+render();
+
+setupSkillInterface();
+</script></body></html>

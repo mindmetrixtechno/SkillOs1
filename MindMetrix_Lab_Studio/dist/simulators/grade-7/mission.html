@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>MindMetrix Mission Rover Lab</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eff4f2;color:#142c2a;font:16px system-ui}header{padding:17px 5vw;background:#102e2b;color:white;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}main{max-width:1160px;margin:auto;padding:28px 20px}h1{font-size:clamp(32px,5vw,54px);letter-spacing:-.05em;margin:4px 0}h2{font-size:20px;margin-top:0}p{line-height:1.5}.intro{margin-bottom:22px}.grid{display:grid;grid-template-columns:1.55fr 1fr;gap:18px}.card{background:white;padding:19px;border:1px solid #d6e4de;border-radius:16px;margin-bottom:14px}.track{display:grid;grid-template-columns:repeat(9,1fr);background:#d0e2d7;padding:8px;border-radius:12px;gap:2px}.tile{aspect-ratio:1;display:grid;place-items:center;background:#e8f2ea;font-size:clamp(14px,3vw,27px);line-height:1;border-radius:3px}.lane{background:#374b49;color:white}.finish{background:#16815e;color:white}.obstacle{background:#a5442e;color:white}.vehicle{font-weight:900;color:#082b28;background:#74e8b9;border:2px solid white}.buttons{display:flex;flex-wrap:wrap;gap:8px}button,select{font:inherit;padding:8px 10px;border:1px solid #b2c9bf;border-radius:8px;background:white;color:#142c2a}button{cursor:pointer;font-weight:650}button:hover{background:#e7f6ee}button.primary{background:#096749;color:white}button:disabled{opacity:.45;cursor:default}label{display:grid;gap:6px;margin-bottom:12px}output{display:block;background:#e5f5ec;padding:12px;border-radius:9px;margin:12px 0}.muted{color:#405e55}.log{padding-left:22px;max-height:145px;overflow:auto}.log li{margin-bottom:5px}@media(max-width:780px){.grid{grid-template-columns:1fr}}
+.track{position:relative;padding:0;gap:0;background:#e7eee4;overflow:hidden;border:1px solid #b9cbbf}.tile{border:1px solid #d4e2d7;border-radius:0}.lane{background:#3f514b;border-color:#52655e}.finish{background:#16815e}.alternate{background:#bacbb9;border:1px dashed #758d79}.obstacle{background:#a5442e;color:white;font-size:12px}.rover-sprite{position:absolute;width:13%;aspect-ratio:1.2;object-fit:cover;border:2px solid white;border-radius:26%;box-shadow:0 3px 8px #122b24a0;z-index:2;transition:left .52s linear,top .52s linear,transform .34s ease;pointer-events:none}.rover-sprite.thinking{outline:3px solid #e1a437}.grid{grid-template-columns:1fr}.intro h1{font-size:24px}header{display:none}main{padding:12px}@media(prefers-reduced-motion:reduce){.rover-sprite{transition:none}}</style><header><strong>MindMetrix Labs</strong><span>Grade 7 · Robotics</span></header>
+<main><div class="intro"><h1>Autonomous Mission Rover</h1><p class="muted">Follow the tape, stop for obstacles, and deliver supplies to the finish.</p></div>
+<div class="grid"><div><section class="card"><h2>Mission track</h2><div id="track" class="track" role="img"></div><p class="muted">Dark tiles: main tape · dashed tiles: detour · red block: obstacle · F: finish</p><div class="buttons"><button class="primary" id="run">Run mission</button><button id="step">Step once</button><button id="clear">Clear obstacle</button><button id="reset">Reset</button></div><output id="status" aria-live="polite">Ready at the start.</output></section><section class="card"><h2>Mission log</h2><ol class="log" id="log"></ol></section></div>
+<div><section class="card"><h2>Mission setup</h2><label>Scenario<select id="scenario"><option value="detour">Obstacle detour · extension</option><option value="blocked">Obstacle stop and wait · workbook</option><option value="clear">Clear path</option><option value="echo">Missing echo</option></select></label><p><strong>Left IR:</strong> <span id="left">—</span> · <strong>Right IR:</strong> <span id="right">—</span></p><p><strong>Ultrasonic:</strong> <span id="distance">—</span></p><p class="muted">The displayed readings are the inputs to the latest decision.</p></section><section class="card"><h2>Workbook challenge</h2><ol><li>Predict where the rover will stop on the blocked path.</li><li>Run the mission. Read the sensor values and explain the stop.</li><li>In workbook mode, clear the obstacle and restart. In detour mode, watch the rover compare two marked routes.</li></ol><p class="muted">The obstacle sensor activity uses a 20 cm example. The combined rover sketch uses 30 cm. The detour is an extension with simulated branch readings on a marked track.</p></section></div></div></main>
+<script>
+const mainRoute=[[6,1],[5,1],[4,1],[4,2],[4,3],[3,3],[2,3],[2,4],[2,5],[2,6],[1,6],[0,6]];
+const branch=[[3,4],[3,5]];
+const obstacleIndex=6;
+const el=id=>document.getElementById(id);
+let route=mainRoute,index=0,cleared=false,timer=null,history=[],phase=0,heading=0;
+function readings(s,i,removed){
+ const blocked=(s==='blocked'||s==='detour')&&!removed&&route===mainRoute&&i<obstacleIndex;
+ return {left:i===route.length-1?'Black':'White',right:i===route.length-1?'Black':'White',distance:s==='echo'&&i===4?null:blocked?(obstacleIndex-i)*18:60};
+}
+function draw(){
+ const scenario=el('scenario').value;
+ if(!el('sprite')){
+  el('track').innerHTML=Array.from({length:63},(_,i)=>{
+   const row=Math.floor(i/9),col=i%9,slot=mainRoute.findIndex(([r,c])=>r===row&&c===col);
+   const finish=slot===mainRoute.length-1,blocked=slot===obstacleIndex&&['blocked','detour'].includes(scenario)&&!cleared;
+   const alternate=scenario==='detour'&&branch.some(([r,c])=>r===row&&c===col);
+   return '<div class="tile '+(slot>=0?'lane ':'')+(alternate?'alternate ':'')+(finish?'finish ':'')+(blocked?'obstacle':'')+'">'+(finish?'F':blocked?'BLOCK':'')+'</div>';
+  }).join('')+'<img src="rover.jpg" alt="" id="sprite" class="rover-sprite">';
+ }
+ const [row,col]=route[index],sprite=el('sprite');
+ sprite.style.left=(col+.5)*100/9+'%';sprite.style.top=(row+.5)*100/7+'%';
+ sprite.style.transform='translate(-50%,-50%) rotate('+heading+'deg)';
+ sprite.classList.toggle('thinking',phase===1||phase===2);
+ el('track').setAttribute('aria-label','Rover at row '+(row+1)+', column '+(col+1));
+ el('clear').disabled=scenario!=='blocked'||cleared;
+ el('log').innerHTML=history.map(message=>'<li>'+message+'</li>').join('');
+}
+function pause(){
+ clearInterval(timer);timer=null;el('run').textContent='Run mission';el('step').disabled=false;
+}
+function step(){
+ const scenario=el('scenario').value,values=readings(scenario,index,cleared);
+ let message,advance=false,halt=false;
+ if(index===route.length-1){message='Mission complete · Supplies delivered';halt=true}
+ else if(values.distance===null){message='Stop · No valid echo';halt=true}
+ else if(values.distance<=30){
+  if(scenario==='blocked'){message='Stop and wait · Obstacle within 30 cm';halt=true}
+  else if(phase===0){phase=1;message='Sense → stop · Obstacle detected at '+values.distance+' cm'}
+  else if(phase===1){phase=2;message='Think · Left branch blocked (12 cm). Right branch clear (54 cm).'}
+  else{
+   const options=[{distance:12,path:null},{distance:54,path:branch}];
+   const chosen=options.find(option=>option.distance>30&&option.path);
+   route=[...mainRoute.slice(0,index+1),...chosen.path,...mainRoute.slice(8)];
+   phase=3;message='Act · Turn right onto the marked bypass and rejoin the tape.';advance=true;
+  }
+ }else{advance=true;message='Follow the tape'}
+ if(advance){
+  const [row,col]=route[index],[nextRow,nextCol]=route[index+1];
+  const nextHeading=nextCol>col?90:nextCol<col?-90:nextRow>row?180:0;
+  const difference=((nextHeading-heading+540)%360)-180;
+  heading+=difference;
+  if(message==='Follow the tape'&&difference)message=difference>0?'Follow tape · Correct right':'Follow tape · Correct left';
+  if(difference<0)values.left='Black';
+  if(difference>0)values.right='Black';
+  index++;
+ }
+ el('left').textContent=values.left;el('right').textContent=values.right;
+ el('distance').textContent=values.distance===null?'No echo':values.distance+' cm';
+ el('status').textContent=message;
+ const entry='Waypoint '+(index+1)+' · '+message;
+ if(history.at(-1)!==entry)history.push(entry);
+ if(halt)pause();
+ draw();return !halt;
+}
+function reset(){
+ pause();route=mainRoute;index=0;cleared=false;history=[];phase=0;heading=0;el('track').innerHTML='';
+ el('status').textContent='Ready at the start.';
+ for(const id of ['left','right','distance'])el(id).textContent='—';
+ draw();
+}
+el('run').onclick=()=>{
+ if(timer!==null){pause();return}
+ if(!step())return;
+ el('run').textContent='Pause';el('step').disabled=true;
+ timer=setInterval(step,650);
+};
+el('step').onclick=step;
+el('clear').onclick=()=>{cleared=true;el('track').innerHTML='';el('status').textContent='Obstacle cleared. Run the mission to resume.';draw()};
+el('reset').onclick=reset;
+el('scenario').onchange=reset;
+reset();
+</script></html>

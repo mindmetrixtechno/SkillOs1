@@ -1,0 +1,9 @@
+MindMetrix Lab Studio source export
+Revision: 250d1622834e5eacc436ab3b1f99ca9eeec94ec9
+
+Install Node.js 22.13 or newer.
+Run npm ci, then npm run dev for local development.
+Run npm test and npm run build to validate and build.
+Read README.md for server storage, deployment and Gemini setup.
+No API keys or live uploaded workbook records are included.
+This is the source code and bundled workbook assets, not a backup of private server data.

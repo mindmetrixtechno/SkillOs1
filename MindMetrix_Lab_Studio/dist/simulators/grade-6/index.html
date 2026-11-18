@@ -1,0 +1,183 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Farmer’s Buddy Lab · MindMetrix Labs</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f6ed;color:#19392e;font:16px system-ui}header{padding:18px 4vw;background:#fbfcf7;border-bottom:1px solid #d9e4d6;display:flex;justify-content:space-between}main{max-width:1450px;margin:auto;padding:25px 3vw}h1{font-size:clamp(32px,5vw,53px);margin:6px 0;letter-spacing:-.045em}h1 em{color:#567947;font-style:normal}h2{font-size:19px;margin-top:0}p,li{line-height:1.5}small{color:#435b4d}.picker,.card{background:#fff;border:1px solid #d6e2d1;border-radius:12px;padding:16px}.picker{margin:18px 0;display:flex;align-items:center;gap:12px;flex-wrap:wrap}.picker select{max-width:100%}.grid{display:grid;grid-template-columns:1fr 2.4fr 1.2fr;gap:14px;align-items:start}nav{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:17px}button,select,input{font:inherit;color:inherit;border:1px solid #b9cbb8;border-radius:7px;background:#fff;padding:8px}button{cursor:pointer;font-weight:650}button:hover{background:#e9f2e5}button[aria-current],.primary{background:#256047;color:#fff}button:disabled{opacity:.5;cursor:default}label{display:grid;gap:4px;margin-bottom:10px}input[type=number]{width:100%}input[type=range]{width:100%;accent-color:#256047}output{display:block;background:#e6f1e2;border-radius:8px;padding:10px;margin-top:12px}.stage{position:relative;background:#f5f8ef;border-radius:10px;min-height:180px;display:grid;place-items:center;padding:12px}.stage img{width:100%;max-height:420px;object-fit:contain}.flow{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.flow span{background:#edf2e7;padding:7px;border-radius:6px}.flow span.on{background:#226048;color:white}.drop{display:none}.watering .drop{display:block;position:absolute;bottom:13%;right:15%;background:#146694;color:white;border-radius:20px;padding:8px 12px;animation:pulse .5s alternate infinite}@keyframes pulse{to{transform:translateY(5px)}}details{border-top:1px solid #e0e9db;padding-top:10px;margin-top:10px}summary{cursor:pointer;font-weight:650}.photo{max-width:100%;max-height:540px;display:block;margin:10px auto}#guide{margin-top:16px}@media(max-width:930px){.grid{grid-template-columns:1fr 2fr}.decisions{grid-column:1/-1}}@media(max-width:630px){.grid{grid-template-columns:1fr}.decisions{grid-column:auto}nav{grid-template-columns:repeat(2,1fr)}}@media(prefers-reduced-motion:reduce){.drop{animation:none!important}}
+.water-stream{display:none;width:8px;height:42px;background:repeating-linear-gradient(#7edcf2 0 6px,#217fb1 7px 12px);border-radius:8px;margin:4px auto}.watering .water-stream{display:block;animation:pulse .25s alternate infinite}.live-scene{padding:0;overflow:hidden;display:block;min-height:0}.live-scene img{display:block;max-height:none}.live-scene .drop{left:var(--outlet-x,71.1%);top:var(--outlet-y,55%);right:auto;bottom:auto;translate:-50% 0;background:none;padding:0;animation:none;font-size:0}.live-scene .water-stream{height:clamp(8px,1.6vw,23px);width:5px;margin:0;box-shadow:0 0 4px #0a83c1}.parts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}.part{background:#f4f7ed;border:1px solid #d9e5d4;border-radius:8px;padding:8px;text-align:left;min-width:0}.part img{width:100%;aspect-ratio:1.65;object-fit:cover;border-radius:5px;display:block;margin-bottom:5px}.part strong,.part small{display:block}.part[aria-pressed=true]{outline:2px solid #256047}.parts-note{color:#435b4d;font-size:13px}@media(max-width:500px){.parts{grid-template-columns:repeat(2,1fr)}}</style>
+<header><strong>MINDMETRIX LABS</strong><strong>GRADE 06</strong></header>
+<main><small>ROBOTICS &amp; AI / INTERACTIVE LAB</small><h1>Welcome to <em>Farmer’s Buddy.</em></h1><p>Read the soil, test your rule, and see when Gordon waters the plant.</p><button id="jump" class="primary">Take the watering challenge ↗</button>
+<div class="picker"><label for="lesson">Follow your workbook</label><select id="lesson"></select></div><nav id="stages" aria-label="Workbook progression"></nav>
+<div class="grid"><section class="card"><h2>Lab conditions</h2><div id="inputs"></div></section>
+<section class="card"><h2 id="model-title">Your Farmer’s Buddy</h2><div id="stage" class="stage"><img id="model" alt="Workbook illustration for the selected activity"><span class="drop">Pump on · watering<span class="water-stream" aria-hidden="true"></span></span></div><div id="flow" class="flow"></div><div id="parts-panel" hidden><h3>Parts of the working model</h3><div id="parts" class="parts"></div><p id="part-detail" class="parts-note" aria-live="polite">Select a component to see its role.</p></div><details><summary>See this activity’s original workbook pictures</summary><p><button id="prev">Previous picture</button> <button id="next">Next picture</button></p><small id="count" aria-live="polite"></small><a id="enlarge" target="_blank" rel="noopener"><img class="photo" id="picture" alt="Illustrated steps from the workbook"></a></details></section>
+<section class="card decisions"><h2>The decision desk</h2><p id="instruction"></p><div id="controls"></div><output id="result" aria-live="polite"></output><p><button id="reset">Reset this activity</button></p></section></div>
+<details class="card" id="guide"><summary>How to use this simulator</summary><ol><li>Choose a workbook activity and inspect the picture.</li><li>Predict what will happen and change one input.</li><li>Test your rule, then record what you observed.</li></ol><p>This browser model demonstrates workbook logic with simulated inputs. Each watering dose is shown for 60 seconds in the simulator. The workbook’s physical pump pulse is 0.5 seconds. Cooldown is accelerated.</p></details>
+</main><script src="pictures.js"></script><script>
+const lessons=[
+ ['1','Machines and Materials','Observe a tool and compare where the effort comes from.'],
+ ['2','Robot or Not?','Identify a system that senses, decides and acts.'],
+ ['3','Let There Be Light!','Open and close the simulated LED circuit.'],
+ ['4','Component Detective','Select a part and explain its job.'],
+ ['5','Meet Your Robot Brain','Test how a blink delay changes the LED pattern.'],
+ ['6','Press & Respond!','Use the button as an input and watch the LED output.'],
+ ['7','Make It Move!','Compare continuous DC rotation with a servo position.'],
+ ['ai','AI Explorer','Try an example and check what evidence supports the answer.'],
+ ['8','Meet Gordon — Farmer’s Buddy','Trace the signal from the soil sensor to the pump.'],
+ ['c1','Capstone 1 · Start in Tinkercad','The workbook uses a potentiometer as the sensor and a DC motor as the pump stand-in.'],
+ ['c2','Capstone 2 · Connect the circuit','Trace the sensor input and the separate motor power path.'],
+ ['c3','Capstone 3 · Build the watering rule','Compare the reading with the threshold and check the dose counter.'],
+ ['c4','Capstone 4 · Test the three-dose limit','Keep the sample soil dry. Wait for each cooldown before testing again.'],
+ ['c5','Capstone 5 · Build the physical model','Review the workbook layout and trace the tank, pump and outlet path.'],
+ ['c6','Capstone 6 · Calibrate the sensor','Enter dry and moist sample readings to find a starting threshold.'],
+ ['c7','Capstone 7 · Test the watering system','Set the threshold and dry-reading direction before testing Gordon.'],
+ ['c8','Capstone 8 · Troubleshoot and present','Compare dry and moist readings, observe a dose and explain your evidence.']
+];
+const get=id=>document.getElementById(id);
+const phases=['Explore','Build','Sense','Water'];
+let key='c8', picture=0, doses=0, timer, reading=720, threshold=600, dryHigher=true, busy=false, timeLeft=0;
+const pumpKeys=['c3','c4','c7','c8'];
+const isDry=(sample,limit,higher)=>higher?sample>limit:sample<limit;
+function say(text){get('result').textContent=text}
+const parts=[
+ ['Soil sensor','Reads the soil at the plant’s roots.'],
+ ['Arduino UNO','Compares the reading against your threshold.'],
+ ['Motor driver','Switches power to the pump when Arduino requests a dose.'],
+ ['Tank and pump','The submerged pump draws water from the tank.'],
+ ['Delivery tube','Carries water from the pump to the outlet above the soil.'],
+ ['Plant and pot','Receives the dose. The cooldown gives the water time to spread.']
+];
+function showParts(){
+ get('parts').innerHTML=parts.map(([name],i)=>'<button class="part" data-part="'+i+'" aria-pressed="false"><img src="part-'+i+'.jpg" alt=""><strong>'+name+'</strong><small id="part-state-'+i+'"></small></button>').join('');
+ const buttons=get('parts').querySelectorAll('button');
+ buttons.forEach(button=>button.onclick=()=>{
+  buttons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+  get('part-detail').textContent=parts[Number(button.dataset.part)][1];
+ });
+ get('part-detail').textContent='Select a component to see its role.';
+}
+function refreshParts(){
+ if(get('parts-panel').hidden)return;
+ const dry=isDry(reading,threshold,dryHigher);
+ const states=[reading+' ADC',dry?'Dry reading':'Moist reading',busy?'Power on':'Power off',busy?'Pumping':'Idle',busy?'Water flowing':'No flow',timeLeft?'Water spreading':doses+' of 3 doses'];
+ states.forEach((state,i)=>get('part-state-'+i).textContent=state);
+}
+function flow(active){
+ get('flow').innerHTML=['Sense','Decide','Water','Care'].map(word=>'<span '+(word===active?'class="on"':'')+'>'+word+'</span>').join('');
+}
+function update(){
+ get('meter').textContent=reading;
+ get('dose-count').textContent=doses+' / 3';
+ const control=get('test');
+ if(control)control.disabled=busy||timeLeft>0;
+ refreshParts();
+}
+function stopTimers(){clearTimeout(timer);busy=false;timeLeft=0;get('stage').classList.remove('watering')}
+function water(){
+ if(busy||timeLeft>0)return;
+ if(doses>=3){say('Pump off. The three-dose limit has been reached.');flow('Care');return}
+ if(!isDry(reading,threshold,dryHigher)){say('Moist soil detected. Pump stays off.');flow('Decide');return}
+ doses++;busy=true;get('stage').classList.add('watering');flow('Water');update();
+ // Extend the visible demonstration without changing the workbook's physical pulse.
+ const end=Date.now()+60000;
+ function tick(){
+  const remaining=Math.ceil((end-Date.now())/1000);
+  if(remaining>0){
+   say('Dry soil detected. Water flowing · '+remaining+' seconds left in the demo.');
+   timer=setTimeout(tick,1000);
+   return;
+  }
+  busy=false;timeLeft=30;get('stage').classList.remove('watering');flow('Care');update();cooldown();
+ }
+ tick();
+}
+function cooldown(){
+ say('Pump off. Water spreads for '+timeLeft+' simulated seconds.');
+ timer=setTimeout(()=>{timeLeft-=5;if(timeLeft>0)cooldown();else{update();say(doses===3?'Pump off. Three-dose limit reached.':'Cooldown complete. Check the soil again.')}},550);
+}
+function showPicture(){
+ const images=pictures[key]||pictures['8'];
+ const source=images[picture];get('picture').src=source;get('enlarge').href=source;
+ get('count').textContent='Picture '+(picture+1)+' of '+images.length+(pictures[key]?'':' · Capstone reference');
+ get('prev').disabled=picture===0;get('next').disabled=picture>=images.length-1;
+}
+const preset=(id,label)=>'<button id="'+id+'">'+label+'</button>';
+function selectSoil(dry){
+ const higher=dry===dryHigher;
+ reading=Math.max(0,Math.min(1023,threshold+(higher?120:-120)));
+ get('soil').value=reading;
+ update();
+ if(dry&&!isDry(reading,threshold,dryHigher)){say('The threshold is at the sensor limit. Adjust it to test dry soil.');return}
+ if(busy||timeLeft>0){
+  say(busy?'Reading updated. The current pulse will finish.':'Reading updated. Wait for cooldown before testing again.');
+  return;
+ }
+ water();
+}
+function setupPump(){
+ get('inputs').innerHTML='<label>Soil sensor reading <input id="soil" type="range" min="0" max="1023" value="'+reading+'"></label><p><strong id="meter"></strong> / 1023 ADC</p><label>Dry threshold <input id="threshold" type="number" min="0" max="1023" value="'+threshold+'"></label><label>Dry soil reads<select id="direction"><option value="higher">Higher</option><option value="lower">Lower</option></select></label><p>Doses used <strong id="dose-count"></strong></p>';
+ get('inputs').insertAdjacentHTML('afterbegin','<p>Choose a soil condition to test it automatically.</p><p>'+preset('dry-soil','Dry soil')+' '+preset('moist-soil','Moist soil')+'</p>');
+ get('dry-soil').onclick=()=>selectSoil(true);
+ get('moist-soil').onclick=()=>selectSoil(false);
+ get('controls').innerHTML=preset('test','Test the watering rule');get('test').className='primary';
+ get('soil').oninput=e=>{reading=Number(e.target.value);update()};
+ get('threshold').onchange=e=>{threshold=Math.min(1023,Math.max(0,Number(e.target.value)));e.target.value=threshold;refreshParts()};
+ get('direction').value=dryHigher?'higher':'lower';
+ get('direction').onchange=e=>{dryHigher=e.target.value==="higher";refreshParts()};
+ get('test').onclick=water;update();flow('Sense');
+}
+const examples={
+ '1':[['Hand trowel','A hand tool uses effort from the person.'],['Electric drill','A powered machine uses a motor.']],
+ '2':[['Desk fan','A simple switched fan runs when it receives power.'],['Line-following robot','Its sensors detect the path, its program decides, and its motors act.']],
+ '3':[['Open circuit','LED off. The circuit path is broken.'],['Closed circuit','LED on. The simulated path is complete.']],
+ '4':[['Resistor','Limits current.'],['LED','Changes electrical energy into visible light.'],['Button','Provides an input when pressed.']],
+ '6':[['Release button','Input released. LED off.'],['Press button','Input pressed. LED on.']],
+ '7':[['DC motor','Turns continuously while driven.'],['Servo at 90°','Moves to its commanded position.']],
+ ai:[['Correct prediction','Check the prediction against your evidence.'],['Unclear prediction','Collect better examples and check again.']],
+ '8':[['Sensor','The sensor supplies a raw soil reading.'],['Arduino','The program compares the reading with a threshold.'],['Driver and pump','The driver switches the pump power for a short pulse.']],
+ c1:[['Turn potentiometer','The simulated A0 reading changes.'],['Test motor','The simulation uses a DC motor in place of the pump.']],
+ c2:[['Trace input','Potentiometer signal reaches A0.'],['Trace output','D9 and D8 command the driver, which switches motor power.']],
+ c5:[['Trace water path','Tank → pump → tube outlet → soil.'],['Check layout','Keep the electronics raised and away from the plant and drip tray.']]
+};
+function openLesson(value){
+ stopTimers();key=value;picture=0;doses=0;
+ const [,title,tip]=lessons.find(([id])=>id===key);
+ get('lesson').value=key;get('instruction').textContent=tip;
+ get('model-title').textContent=title;
+ const finished=pumpKeys.includes(key);
+ get('stage').classList.toggle('live-scene',finished);
+ get('model').src=finished?'finished-system.jpg':(pictures[key]||pictures['8'])[0];
+ get('model').alt=finished?'Assembled Farmer’s Buddy system with raised electronics, a water tank and a tube over the plant.':'Workbook illustration for the selected activity';
+ get('parts-panel').hidden=!finished;
+ if(finished)showParts();
+ get('inputs').innerHTML='<p>'+tip+'</p>';
+ get('controls').innerHTML='';get('flow').innerHTML='';
+ say('Ready to test.');
+ const stage=key.startsWith('c')?(pumpKeys.includes(key)?3:key==='c6'?2:1):Number(key)>=3&&Number(key)<=7?1:0;
+ get('stages').innerHTML=phases.map((label,i)=>'<button data-phase="'+i+'" '+(i===stage?'aria-current="step"':'')+'>'+label+'</button>').join('');
+ get('stages').querySelectorAll('button').forEach(button=>button.onclick=()=>openLesson(['1','3','c6','c8'][Number(button.dataset.phase)]));
+ if(pumpKeys.includes(key))setupPump();
+ else if(key==='c6'){
+  get('inputs').innerHTML='<label>Dry sample<input id="dry" type="number" min="0" max="1023" value="720"></label><label>Moist sample<input id="moist" type="number" min="0" max="1023" value="360"></label>';
+  get('controls').innerHTML=preset('calibrate','Calculate threshold');
+  get('calibrate').onclick=()=>{
+   const dry=get('dry'),moist=get('moist');
+   if(!dry.value||!moist.value||!dry.checkValidity()||!moist.checkValidity()||Number(dry.value)===Number(moist.value)){say('Enter two different readings from 0 to 1023.');return}
+   threshold=Math.round((Number(dry.value)+Number(moist.value))/2);dryHigher=Number(dry.value)>Number(moist.value);
+   say('Threshold '+threshold+'. Dry soil reads '+(dryHigher?'higher':'lower')+'. These settings carry into the watering challenge.');
+  };
+ }else if(key==='5'){
+  get('inputs').innerHTML='<label>Blink delay<select id="delay"><option value="250">250 ms</option><option value="500">500 ms</option><option value="1000">1000 ms</option></select></label>';
+  get('controls').innerHTML=preset('blink','Run three blinks');
+  get('blink').onclick=()=>{clearTimeout(timer);let n=0;const interval=Number(get('delay').value);function next(){say(n===6?'Three blinks complete.':n%2?'LED off':'LED on');if(n++<6)timer=setTimeout(next,interval)}next()};
+ }else{
+  get('controls').innerHTML=examples[key].map(([label],i)=>preset('choice-'+i,label)).join(' ');
+  examples[key].forEach(([,message],i)=>get('choice-'+i).onclick=()=>say(message));
+ }
+ showPicture();
+}
+get('lesson').innerHTML=lessons.map(([id,title])=>'<option value="'+id+'">'+title+'</option>').join('');
+get('lesson').onchange=e=>openLesson(e.target.value);
+get('jump').onclick=()=>openLesson('c8');
+get('prev').onclick=()=>{picture--;showPicture()};
+get('next').onclick=()=>{picture++;showPicture()};
+get('reset').onclick=()=>openLesson(key);
+const requestedActivity = new URLSearchParams(location.search).get('activity');
+openLesson(lessons.some(([id])=>id===requestedActivity)?requestedActivity:key);
+</script></html>

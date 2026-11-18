@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Autonomous Mission Rover · MindMetrix Labs</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eef4f1;color:#193630;font:16px system-ui}header{background:#102f2b;color:white;padding:16px 5vw}main{max-width:1230px;margin:auto;padding:24px}.hero,.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.hero{align-items:center;background:#123e35;color:white;border-radius:18px;overflow:hidden}.hero div{padding:24px}.hero img{display:block;width:100%}.hero small{color:#c7ead9}h1{font-size:clamp(29px,4vw,52px);line-height:1.06;margin:8px 0}h2{margin-top:0}.card{background:white;border:1px solid #d5e5dc;border-radius:13px;padding:18px;min-width:0}nav,.actions{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}button,select,input,a.launch{font:inherit;border:1px solid #afc8be;border-radius:7px;background:white;color:#173b30;padding:8px 10px}button,a.launch{cursor:pointer;font-weight:650}button:hover{background:#e4f6ed}button[aria-current],a.launch{background:#087151;color:white}button:disabled{opacity:.45;cursor:default}.page{width:100%;display:block;border:1px solid #d5e5dc}.note{background:#e7f5ee;padding:12px;border-radius:8px}.steps{display:grid;gap:8px}.steps label{display:block}label{display:inline-grid;gap:4px;margin:4px 8px 8px 0}input[type=number]{width:100px}iframe{width:100%;height:780px;border:1px solid #d5e5dc;border-radius:10px}p,li{line-height:1.5}a{color:#086347}@media(max-width:850px){.hero,.grid{grid-template-columns:1fr}main{padding:12px}}
+
+body{background:#f3f6ee;color:#183932;font-size:15px}header{display:flex;align-items:center;justify-content:space-between;background:#f9faf5;color:#193a33;border-bottom:1px solid #d9e0d1}header small{display:block;color:#586d60;margin-top:4px}.badge,.intro small,.picker label{font-weight:750;letter-spacing:.10em;font-size:11px}.badge{border:1px solid #d5dfd0;padding:6px 9px;border-radius:5px}main{max-width:1510px;padding:30px 3vw}.intro{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:22px}.intro em{font-style:normal;color:#54754b}.intro p,.card p{color:#415c50}.intro-actions{display:grid;gap:10px;text-align:center}.intro-actions button{background:#204d40;color:white}.picker{display:flex;align-items:center;gap:15px;background:#fff;border:1px solid #d9e2d3;border-radius:10px;padding:10px 15px}.picker label{margin:0}.picker select{max-width:100%;min-width:0;border:0}.lab{display:grid;grid-template-columns:minmax(155px,1fr) minmax(340px,2.75fr) minmax(200px,1.15fr);gap:16px;align-items:start}.model{background:#fafbf5}.model img.rover{display:block;width:100%;border-radius:9px}.model iframe{height:690px}.card h2{font-size:18px;margin-bottom:7px}.card h3{font-size:15px}.card details{margin-top:15px;border-top:1px solid #d9e2d3;padding-top:12px}.prompt{padding:8px 2px;color:#3c584b}#progress{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #d9e2d3;border-radius:10px;overflow:hidden}#progress button{border:0;border-right:1px solid #d9e2d3;border-radius:0;text-align:left;background:#fafbf5;padding:12px}#progress button[aria-current]{background:#e1ebd7;color:#1c4535}#progress small{display:block;margin-top:4px;font-weight:400}#guide{margin-top:18px;scroll-margin-top:12px}summary{cursor:pointer;font-weight:650}#readings dl{margin:0}#readings dt{color:#415c50;font-size:13px}#readings dd{margin:3px 0 12px;font-weight:750}#reset-activity{margin-top:12px}@media(max-width:1000px){.lab{grid-template-columns:1fr 2fr}.decisions{grid-column:1/-1}}@media(max-width:650px){.intro{display:block}.intro-actions{text-align:left;justify-items:start}.lab{grid-template-columns:1fr}.model{grid-row:1}.decisions{grid-column:auto}#progress{grid-template-columns:1fr 1fr}.picker{flex-wrap:wrap}}
+.rover-parts{margin-top:18px}.parts-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.parts-grid button{text-align:left;background:#f6f9f0;padding:7px;min-width:0}.parts-grid button[aria-pressed=true]{border-color:#246a51;outline:2px solid #246a51}.parts-grid img{display:block;width:100%;height:78px;object-fit:contain;background:#eaf0e7;border-radius:5px;margin-bottom:5px}.parts-grid span{display:block;font-size:13px;overflow-wrap:anywhere}#part-detail{margin:9px 0 0}@media(max-width:650px){.parts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
+<header><div><strong>MINDMETRIX LABS</strong><small>An education initiative of MindMetrix Techno Private Limited</small></div><span class="badge">GRADE 07</span></header>
+<main><section class="intro"><div><small>ROBOTICS &amp; AI / INTERACTIVE LAB</small><h1>Welcome to <em>Mission Rover.</em></h1><p>Build the rover. Read the track. Explain your evidence.</p></div><div class="intro-actions"><a href="#guide" id="open-guide">How to use this simulator</a><button id="jump">Take the delivery challenge ↗</button></div></section>
+<div class="picker"><label for="activities">FOLLOW YOUR WORKBOOK</label><select id="activities"></select></div>
+<nav id="progress" aria-label="Workbook progression"></nav>
+<p id="prompt" class="prompt"></p>
+<div class="lab"><section class="card conditions"><h2>Rover conditions</h2><p>Read the inputs before predicting what the rover will do.</p><div id="readings"></div><p id="observed-input" aria-live="polite"></p></section>
+<section class="card model"><h2>Your Mission Rover</h2><p>One rover model · workbook activities</p><div id="model-stage"></div><section class="rover-parts" aria-labelledby="parts-title"><h3 id="parts-title">Parts of the working model</h3><div id="parts" class="parts-grid"></div><p id="part-detail" aria-live="polite">Select a component to see its role.</p></section><details><summary>See this activity’s original workbook pictures</summary><div class="actions"><button id="prev">Previous page</button><button id="next">Next page</button></div><p id="page-label" aria-live="polite"></p><a id="full-page" target="_blank" rel="noopener"><img id="picture" class="page" alt="" loading="lazy"></a></details></section>
+<section class="card decisions"><h2>The decision desk</h2><h3 id="lesson-title"></h3><div id="exercise"></div><button id="reset-activity">Reset this activity</button></section></div>
+<details id="guide" class="card"><summary>How to use this simulator</summary><ol><li>Choose the activity you are working on.</li><li>Read its workbook picture and predict what will happen.</li><li>Use the decision desk and compare what you predicted with what you observed.</li></ol><p>Readings and motion are simulated. Use the workbook for physical build and wiring.</p></details></main>
+<script>
+const lessons=[
+ ['Before you start',20,24,['Open the example circuit','Run the supported program','Observe the output','Assign team roles']],
+ ['1 · Meet the Mission',25,30,['Define the delivery goal','Mark the start and finish','Sketch the path and obstacle','Predict where the rover should stop']],
+ ['2 · Give Your Rover a Body',31,41,['Identify the chassis and brackets','Mount both geared motors','Fit the wheels and caster','Mark the front and check stability']],
+ ['3 · Controlled Movement',42,54],
+ ['4 · Read the Path',55,69],
+ ['5 · Path-Following Rules',70,79],
+ ['6 · Notice an Obstacle',80,86],
+ ['7 · Combine Sense and Move',87,95],
+ ['8 · Classroom Delivery Mission',96,102],
+ ['AI Rover Trainer',103,112]
+];
+const get=id=>document.getElementById(id);
+let active=0,page=20;
+const checks=lessons.map(()=>new Set());
+const surfaces=name=>'<label>'+name+' surface<select name="'+name.toLowerCase()+'"><option>White</option><option>Black</option></select></label>';
+function showPage(){
+ const [,first,last]=lessons[active], src='pages/'+page+'.jpg';
+ get('picture').src=src;get('picture').alt='Illustrated workbook page '+(page-4);
+ get('full-page').href=src;get('page-label').textContent='Workbook page '+(page-4)+' · Click the picture to enlarge';
+ get('prev').disabled=page===first;get('next').disabled=page===last;
+}
+function evaluate(activity,data){
+ const left=data.get('left'),right=data.get('right'),cm=data.get('distance');
+ if(activity===3){
+  const l=data.get('motorLeft'),r=data.get('motorRight');
+  if(l===r)return l==='Forward'?'Moves straight forward.':l==='Reverse'?'Moves straight backward.':'Both wheels stopped.';
+  return 'Different wheel commands turn the rover. Check which wheel moves forward.';
+ }
+ if(activity===4)return 'Calibration record · Left '+left+' · Right '+right+'. These are surface labels. Check the actual signal for each module on the physical track.';
+ if(activity===6&&(cm===''||Number(cm)<=20))return cm===''?'STOP · No valid echo.':'STOP · Obstacle at or within 20 cm.';
+ if(activity===6)return 'CLEAR · Obstacle beyond the example stop distance.';
+ if(left==='Black'&&right==='Black')return 'STOP · Both sensors see black. Check the track.';
+ if(left==='Black')return 'Correct left.';
+ if(right==='Black')return 'Correct right.';
+ return 'Forward · Both sensors see white. A lost line can produce the same readings.';
+}
+function selectLesson(i){
+ active=i;page=lessons[i][1];
+ get('activities').value=String(i);
+ const stages=[['BUILD','Plan and assemble',0],['MOVE','Test both wheels',3],['SENSE','Read the track',4],['DELIVER','Run the mission',7]];
+ const stage=i>=7?3:i>=4?2:i===3?1:0;
+ get('progress').innerHTML=stages.map(([title,caption,target],n)=>'<button data-lesson="'+target+'" '+(n===stage?'aria-current="step"':'')+'>0'+(n+1)+' · '+title+'<small>'+caption+'</small></button>').join('');
+ get('progress').querySelectorAll('button').forEach(b=>b.onclick=()=>selectLesson(Number(b.dataset.lesson)));
+ get('prompt').textContent=['Follow the workbook pictures and check each build step.','Compare the commands to the two wheels.','Predict the result before you test the sensor inputs.','Watch the rover respond and explain what made it stop.'][stage];
+ get('observed-input').textContent='';
+ get('readings').innerHTML='<dl><dt>Track</dt><dd>Black tape on white</dd><dt>Track sensors</dt><dd>Left IR + right IR</dd><dt>Obstacle rule</dt><dd>Stop at or within 20 cm</dd></dl>';
+ get('model-stage').innerHTML=i===7||i===8?'<iframe title="Interactive rover mission track" src="mission.html"></iframe>':'<img class="rover" src="rover.jpg" alt="Assembled two-wheel classroom rover with front ultrasonic sensor">';
+ get('lesson-title').textContent=lessons[i][0];
+ let body='';
+ if(i<3){
+  body='<p>Follow the workbook pictures. Check each step as you complete the walkthrough.</p><div class="steps">'+lessons[i][3].map((step,n)=>'<label><input type="checkbox" data-check="'+n+'" '+(checks[i].has(n)?'checked':'')+'> '+step+'</label>').join('')+'</div>';
+ }else if(i<=6){
+  const motor=side=>'<label>'+side+' wheel<select name="motor'+side+'"><option>Stop</option><option>Forward</option><option>Reverse</option></select></label>';
+  body='<p>Predict the result, change the inputs, then test one decision.</p><form id="test">'+(i===3?motor('Left')+motor('Right'):i===6?'<label>Ultrasonic distance (cm)<input name="distance" type="number" min="0" max="400" value="30" placeholder="No echo"></label>':surfaces('Left')+surfaces('Right'))+'<button>Test</button></form><p id="test-result" role="status" class="note">Ready to test.</p>';
+ }else if(i<=8){
+  body='<p>'+ (i===7?'Observe which rule takes priority when the obstacle blocks the rover.':'Start at the marked position, carry the supply card and reach the finish.')+'</p><p><a href="mission.html" target="_blank" rel="noopener">Open full-screen mission track ↗</a></p>';
+ }else{
+  body='<p>Choose a sample card and compare the expected paper-rover action with the demonstration output.</p><label>Sample card<select id="card-choice"><option>LEFT</option><option>RIGHT</option><option>STOP</option><option>UNCLEAR</option></select></label><button id="classify">Test card</button><p id="test-result" class="note" role="status">Choose a card to begin.</p><p>This is a scripted demonstration of the separate card-classifier activity.</p>';
+ }
+ get('exercise').innerHTML=body;
+ get('exercise').querySelectorAll('[data-check]').forEach(b=>b.onchange=()=>b.checked?checks[i].add(Number(b.dataset.check)):checks[i].delete(Number(b.dataset.check)));
+ if(get('test'))get('test').onsubmit=e=>{
+  e.preventDefault();
+  const values=new FormData(e.currentTarget);
+  get('test-result').textContent=evaluate(i,values);
+  get('observed-input').textContent=[...values.values()].map(value=>value||'No echo').join(' · ')+(i===6&&values.get('distance')?' cm':'');
+ };
+ if(get('classify'))get('classify').onclick=()=>{const card=get('card-choice').value;get('test-result').textContent=card==='UNCLEAR'?'No confident prediction · Keep the paper rover still.':card==='STOP'?'STOP · Keep the paper rover still.':card+' · Turn the paper rover '+card.toLowerCase()+'.'};
+ showPage();
+}
+const parts=[
+ ['Arduino UNO','Reads the sensors and tells the motor driver when to move, turn or stop.'],
+ ['Motor driver','Uses the Arduino’s commands to control power and direction for the two motors.'],
+ ['Ultrasonic sensor','Faces forward and measures the distance to an obstacle from the returning sound echo.'],
+ ['Left and right IR sensors','Face down and compare the surfaces on either side of the tape so the rover can correct its direction.'],
+ ['Wheels and geared motors','Drive the rover forward. Different left and right wheel movements let it turn.'],
+ ['Chassis','Supports the electronics, sensors and wheels and keeps them in position.'],
+ ['Battery pack','Supplies power to the motor circuit through the driver.']
+];
+get('parts').innerHTML=parts.map(([name],i)=>'<button type="button" data-part="'+i+'" aria-pressed="false"><img src="rover-part-'+i+'.jpg" alt=""><span>'+name+'</span></button>').join('');
+const partButtons=get('parts').querySelectorAll('button');
+partButtons.forEach(button=>button.onclick=()=>{
+ partButtons.forEach(item=>item.setAttribute('aria-pressed',String(item===button)));
+ const [name,role]=parts[Number(button.dataset.part)];
+ get('part-detail').textContent=name+' — '+role;
+});
+get('activities').innerHTML=lessons.map(([title],i)=>'<option value="'+i+'">'+title+'</option>').join('');
+get('activities').onchange=e=>selectLesson(Number(e.target.value));
+get('open-guide').onclick=()=>{get('guide').open=true};
+get('jump').onclick=()=>{selectLesson(8);get('lesson-title').scrollIntoView({block:'nearest'})};
+get('reset-activity').onclick=()=>{checks[active].clear();selectLesson(active)};
+get('prev').onclick=()=>{page--;showPage()};
+get('next').onclick=()=>{page++;showPage()};
+const requestedActivity = new URLSearchParams(location.search).get('activity');
+selectLesson(requestedActivity!==null&&/^\d+$/.test(requestedActivity)&&lessons[Number(requestedActivity)]?Number(requestedActivity):8);
+</script></html>

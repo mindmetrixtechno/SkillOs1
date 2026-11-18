@@ -1,0 +1,136 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MindMetrix SmartSpace · Grade 8</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#eff4ef;color:#183b31;font:16px system-ui}header{background:#153b31;color:white;padding:16px 4vw;display:flex;justify-content:space-between}main{max-width:1450px;margin:auto;padding:24px}h1{font-size:clamp(32px,5vw,56px);margin:4px 0;letter-spacing:-.05em}h2{font-size:19px;margin-top:0}p{line-height:1.5}.grid{display:grid;grid-template-columns:1fr 2.7fr 1.2fr;gap:14px;align-items:start}.card{background:#fff;border:1px solid #d4e2d5;border-radius:14px;padding:15px;min-width:0}button,select{font:inherit;padding:8px 10px;color:inherit;background:white;border:1px solid #a8c1ad;border-radius:8px}button{cursor:pointer;font-weight:650}button:hover{background:#e2f1e6}button.primary,button[aria-pressed=true]{background:#236347;color:white}.controls,.parts,.readout{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}label{display:block;margin:12px 0}input[type=range]{width:100%;accent-color:#216549}.scene{position:relative}.scene>img{display:block;width:100%;border-radius:9px}.mark{position:absolute;transform:translate(-50%,-50%);border-radius:50%;padding:0;width:27px;height:27px;background:#fff;color:#174735}.mark.active{background:#e5b948;box-shadow:0 0 16px 7px #ffda51;color:#1d362d}.mark.spin{animation:spin .6s linear infinite}.mark.door{border-radius:5px;transform:translate(-50%,-50%) skewY(-16deg);background:#ffc980}@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}.readout span,output{background:#e7f2e6;padding:8px;border-radius:7px}output{display:block;margin:9px 0}.parts button{flex:1 1 110px}.parts img{display:block;width:100%;height:60px;object-fit:cover;margin-bottom:4px;border-radius:4px}.lcd{background:#193644;color:#b6f4db;padding:8px;font:14px monospace;white-space:pre-line;border-radius:6px}.steps{margin:16px 0}.steps select{max-width:100%}@media(max-width:1000px){.grid{grid-template-columns:1fr 2fr}.desk{grid-column:1/-1}}@media(max-width:650px){.grid{grid-template-columns:1fr}.model{grid-row:1}.desk{grid-column:auto}}@media(prefers-reduced-motion:reduce){.mark.spin{animation:none}}
+#visuals>*{position:absolute;pointer-events:none}#visuals .glow{display:none;left:32%;top:4%;width:32%;height:52%;background:radial-gradient(ellipse at 50% 28%,#fffad4 4%,#ffe97a9c 26%,transparent 72%);mix-blend-mode:screen}#visuals[data-lamp=true] .glow{display:block}#visuals .rotor{display:none;left:72.3%;top:39.1%;width:7%;aspect-ratio:1;animation:rotate .23s linear infinite}#visuals[data-fan=true] .rotor{display:block}#visuals .door-effect{display:none;left:25.4%;top:34%;width:9.4%;height:35%;background:#262e27}#visuals[data-door=true] .door-effect{display:block}#visuals .door-effect:after{content:'';position:absolute;inset:0;background:url(part-door.jpg) center/cover;transform-origin:left;transform:perspective(160px) rotateY(-65deg)}#screen{left:68.6%;top:75.9%;width:15.2%;color:#c8efff;text-align:center;font:clamp(5px,1vw,13px) monospace;white-space:pre-line}@keyframes rotate{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){#visuals .rotor{animation:none}}.progress{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:12px 0 18px}.progress button{text-align:left}.progress small{display:block;font-weight:400}.meter{height:7px;background:#dce9df;border-radius:8px;overflow:hidden}.meter i{display:block;height:100%;width:0;background:#297550;transition:width .2s}.log{font-size:13px;padding-left:20px}.log li{margin:5px 0}.steps{background:white;border:1px solid #d4e2d5;border-radius:12px;padding:10px 15px}.steps label{margin:0}.steps output{margin-bottom:0}.scene{overflow:hidden;border-radius:9px}.scene.dim>img:first-child{filter:brightness(.64)}#visuals .signal{display:none;left:47%;top:81%;background:#ffe8a5;color:#392a09;border-radius:10px;padding:4px 8px;font-size:12px}#visuals[data-buzzer=true] .signal{display:block}@media(max-width:620px){.progress{grid-template-columns:repeat(2,1fr)}}.energy{margin:20px 0;scroll-margin-top:12px}.energy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.energy input[type=number]{width:90px}footer{padding:20px 0}a{color:#205b41}@media(max-width:850px){.energy-grid{grid-template-columns:1fr}}body{background:#f3f6ee}header{background:#fafbf6;color:#173b31;border-bottom:1px solid #d4e2d5}h1 em{font-style:normal;color:#52754c}.live{font-size:12px;float:right;color:#376247}.progress button{border-radius:0}.progress{gap:0;border-radius:10px;overflow:hidden}.progress button[aria-pressed=true]{background:#e0ebd8;color:#173b31}.desk small{display:block;margin-top:10px}.energy h2{font-size:clamp(24px,4vw,40px);margin:8px 0}.energy-grid{grid-template-columns:1fr}.energy article{background:#f9fbf6}footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}</style>
+<header><strong>MINDMETRIX LABS</strong><strong>GRADE 08</strong></header><main><small>ROBOTICS &amp; IoT / INTERACTIVE LAB</small><h1>Welcome to <em>SmartSpace.</em></h1><p>Change the room. Watch it respond. Explain your evidence.</p><p><a href="how-to-use.html">How to use this simulator</a> · <a href="#challenge">✧ Take the energy challenge ↗</a></p><div class="steps"><label>Follow your workbook <select id="lesson"></select></label><output id="tip"></output></div>
+<nav class="progress" id="progress" aria-label="Learning stages"></nav><div class="grid"><section class="card"><h2>◉ Room conditions</h2><small>INPUTS · Read in every control mode</small><label>Light sensor <strong id="lightValue"></strong> ADC<input id="light" type="range" min="0" max="4095" value="2400"><small>LDR AO → GPIO34 · raw ADC, not lux</small></label><label>Temperature <strong id="tempValue"></strong> °C<input id="temp" type="range" min="18" max="40" value="28"></label><label>Humidity <strong id="humidityValue"></strong>%<input id="humidity" type="range" min="20" max="95" value="55"><small>DHT11 DATA → GPIO27</small></label><div class="controls"><button id="bright">Bright</button><button id="dark">Shade</button><button id="warm">Warm</button><button id="motion" aria-pressed="false">No motion event</button></div><small>PIR OUT → GPIO26 · detects movement. No motion is not proof of an empty room.</small></section>
+<section class="card model"><h2>Your SmartSpace <small class="live">● Simulation live</small></h2><p>One cumulative model · workbook behaviour</p><div class="scene"><img src="room.jpg" alt="Photorealistic illustration of the assembled SmartSpace room"><div id="visuals" aria-hidden="true"><i class="glow"></i><i class="door-effect"></i><img class="rotor" src="fan-rotor.png" alt=""><span id="screen"></span><b class="signal">♪ Buzzer active</b></div><div id="markers"></div></div><div class="readout" id="states"></div><strong>16 × 2 STATUS DISPLAY</strong><div id="lcd" class="lcd"></div><details><summary>See this activity’s original workbook picture</summary><p><a href="https://mindmetrix-smartspace-lab.chirpyhoney.chatgpt.site/assets/activity-8.png" target="_blank" rel="noopener">Original Activity 8 workbook checkpoint</a></p></details><h2 style="margin-top:17px">Parts of the working model</h2><div id="parts" class="parts"></div><output id="role">Select a component to see its role.</output></section>
+<section class="card desk"><h2>⌘ The decision desk</h2><div class="controls" id="modes"></div><div class="controls"><button id="local">Press LOCAL button</button></div><details><summary>Try a remote command</summary><label>Send a command using <select id="transport"><option>Wi-Fi browser</option><option>Bluetooth phone</option></select></label><div class="controls"><button data-command="1">Light ON · 1</button><button data-command="0">Light OFF · 0</button><button data-command="D">Door OPEN · D</button><button data-command="d">Door SHUT · d</button><button data-command="F">Fan ON · F</button><button data-command="f">Fan OFF · f</button><button data-command="B">Beep · B</button><button data-command="S">Status · S</button></div><small>Output commands work only in REMOTE.</small></details><button id="demo" class="primary">Run 30-second demo</button><button id="reset">Reset</button><div class="meter" role="progressbar" aria-label="Demo progress" aria-valuemin="0" aria-valuemax="30" aria-valuenow="0" id="meter"><i></i></div><output id="clock" aria-live="off">30 seconds ready</output><small>WHAT JUST HAPPENED?</small><output id="event" aria-live="polite">Select a mode or start the demo.</output><details open><summary>Decision history</summary><ol class="log" id="history"></ol></details><p><small>Component demos stretch the visible effects to 30 seconds. Workbook AUTO mode uses a 4-second door cycle and a short beep. This is a browser simulation.</small></p></section></div><section id="challenge" class="card energy"><small>ACTIVITY 9 / CAN AI HELP US SAVE ENERGY?</small><h2>Train. Test. <em>Improve with evidence.</em></h2><p>The workbook’s four-hour AI route, with a camera-free browser rehearsal.</p><div class="energy-grid">
+<article class="card"><small>HOURS 1–2 · DATA → DECISION TREE</small><h3>Possible waste? Ask for a review.</h3><p>Train on 40 labelled simulated rows. Test on 16 separate unseen rows.</p><button id="train">Train &amp; test the model ↗</button><p><a href="training.csv" download>Training CSV · 40 rows</a> · <a href="test.csv" download>Test CSV · 16 rows</a></p><p>Features: observed brightness, temperature, PIR event, light state and fan state.</p><label><input type="checkbox" id="natural" checked> I observe enough natural light for the task</label><output id="training" aria-live="polite">Ready to train.</output><small>The browser learns a small decision tree. Simulated results cannot establish real-world accuracy or savings.</small></article>
+<article class="card"><small>HOUR 3 · GESTURE REHEARSAL</small><h3>Simulate a recognised gesture.</h3><label><input type="checkbox" id="dryrun" checked> Dry run · no command sent</label><div class="controls"><button data-gesture="1">✋ Open_Palm → ON</button><button data-gesture="0">✊ Closed_Fist → OFF</button><button data-gesture="?">? Uncertain</button></div><output id="gesture" aria-live="polite">Choose a pretend prediction. No camera opens.</output></article>
+<article class="card"><small>HOUR 4 · FIVE-MINUTE COMPARISON</small><h3>Same light. A better threshold?</h3><p>Try changing the original high limit from 2000 to 1700.</p><label>Low limit <input id="low" type="number" min="0" max="4095" value="1600"></label><label>High limit <input id="high" type="number" min="0" max="4095" value="1700"></label><details><summary>How is this a fair test?</summary><p>Both trials start OFF and replay the same six 50-second scenes. Natural light is a separate simulated observation. The test counts ON-seconds and time with useful lighting.</p></details><button id="compare">Compare my rule →</button><output id="report" aria-live="polite">Ready to test. Can you reduce ON-time and keep useful lighting?</output></article></div><p><strong>Pause &amp; think</strong> · Does less LED ON-time prove lower electricity use without measuring power?</p></section>
+<details class="card"><summary>Teacher’s corner · workbook alignment and model limits</summary><p>Use SENSE to read the inputs, CONNECT to rehearse a command, CONTROL to compare modes, and AUTOMATE to test thresholds. PIR detects a movement event. All readings, communication and output effects are simulated.</p></details><footer>MINDMETRIX LABS · Learn by making. <span>Grade 8 · SENSE • CONNECT • CONTROL • AUTOMATE</span></footer></main>
+<script>
+const $=id=>document.getElementById(id);
+const parts=[
+ ['esp','ESP32','Reads inputs and decides which outputs to activate.',24,83],
+ ['ldr','Light sensor','Measures brightness as a raw ADC reading. AUTO turns the light on at 1600 or below and off at 2000 or above.',13,24],
+ ['dht','DHT11','Measures temperature and humidity. AUTO starts the fan at 29 °C and stops it at 27 °C.',88,51],
+ ['pir','PIR sensor','Detects a motion event. AUTO opens the door briefly and signals with the buzzer.',88,24],
+ ['lamp','Room light','Shows the lighting output controlled by the ESP32.',48,19],
+ ['fan','Fan','Moves air when the motor driver receives the fan command.',76,46],
+ ['door','Servo door','Moves between closed and open positions when commanded.',30,50],
+ ['buzzer','Buzzer','Signals a motion event with a short beep in workbook AUTO mode.',40,89],
+ ['lcd','LCD display','Shows the active mode, temperature, humidity and output states.',76,80]
+];
+const lessons=[
+ ['Build the Brain','Press the LOCAL button and observe the room light.','LOCAL'],
+ ['Control Without Wires','Try remote light control. This browser simulates the command.','REMOTE'],
+ ['Bring SmartSpace Online','Try a dashboard command and check its effect.','REMOTE'],
+ ['Give SmartSpace Senses','Adjust light, temperature and humidity and compare the readings.','LOCAL'],
+ ['Make SmartSpace Respond','Select the fan, door or buzzer to demonstrate an output.','REMOTE'],
+ ['Make SmartSpace Automatic','Change the light or temperature and observe the rules.','AUTO'],
+ ['Build the IoT Control Centre','Send a simulated remote command and compare it with the LCD.','REMOTE'],
+ ['Three Ways to Control SmartSpace','Switch between LOCAL, REMOTE and AUTO to compare their behaviour.','LOCAL'],
+ ['AI for SmartSpace','Compare Bright and Dark at the same temperature. Explain when the light runs.','AUTO'],
+ ['We Built SmartSpace!','Try the complete model or run the 30-second showcase.','LOCAL']
+];
+let mode='LOCAL',outputs={},demoUntil=0,demoPart=null,doorUntil=0,beepUntil=0,selected='';
+const history=[];
+const say=message=>{
+ $('event').textContent=message;
+ if(history.at(0)===message)return;
+ history.unshift(message);if(history.length>5)history.pop();
+ $('history').replaceChildren(...history.map(entry=>{const li=document.createElement('li');li.textContent=entry;return li}));
+};
+const stages=[['Sense','Read the inputs',3],['Connect','Try a remote command',2],['Control','Choose the controller',7],['Automate','Test the rules',9]];
+function progress(){
+ const lesson=Number($('lesson').value);
+ const active=lesson===3?0:lesson===1||lesson===2||lesson===6?1:lesson>=8||lesson===5?3:2;
+ $('progress').innerHTML=stages.map(([name,caption,target],i)=>'<button data-stage="'+target+'" aria-pressed="'+(i===active)+'">'+name+'<small>'+caption+'</small></button>').join('');
+ $('progress').querySelectorAll('button').forEach(button=>button.onclick=()=>{$('lesson').value=button.dataset.stage;$('lesson').onchange();$('progress').querySelector('[data-stage="'+button.dataset.stage+'"]').focus()});
+}
+function meter(elapsed){$('meter').setAttribute('aria-valuenow',String(elapsed));$('meter').firstElementChild.style.width=(elapsed/30*100)+'%'}
+
+function render(){
+ for(const id of ['light','temp','humidity'])$(id+'Value').textContent=$(id).value;
+ const effective=id=>outputs[id]||(demoPart==='all'&&showcase(id))||demoPart===id||(demoPart==='door'&&selected==='pir'&&id==='buzzer');
+ $('states').innerHTML=['lamp','fan','door','buzzer'].map(id=>'<span>'+id.toUpperCase()+' · '+(effective(id)?(id==='door'?'OPEN':'ON'):(id==='door'?'CLOSED':'OFF'))+'</span>').join('');
+ $('visuals').parentElement.classList.toggle('dim',Number($('light').value)<=1600&&!effective('lamp'));
+ for(const id of ['lamp','fan','door','buzzer'])$('visuals').dataset[id]=String(!!effective(id));
+ $('lcd').textContent=mode+'  L'+Number(!!effective('lamp'))+' F'+Number(!!effective('fan'))+'\nT:'+$('temp').value+'C H:'+$('humidity').value+'%';
+ $('screen').textContent=$('lcd').textContent;
+ for(const button of document.querySelectorAll('[data-mode]'))button.setAttribute('aria-pressed',String(button.dataset.mode===mode));
+ for(const button of document.querySelectorAll('.mark')){const id=button.dataset.part;button.classList.toggle('active',!!effective(id)||selected===id);button.classList.toggle('spin',id==='fan'&&!!effective(id));button.classList.toggle('door',id==='door'&&!!effective(id));}
+}
+function automatic(explain=false){
+ if(mode!=='AUTO')return;
+ const light=Number($('light').value),temp=Number($('temp').value);
+ const beforeLamp=!!outputs.lamp,beforeFan=!!outputs.fan;
+ if(light<=1600)outputs.lamp=true;else if(light>=2000)outputs.lamp=false;
+ if(temp>=29)outputs.fan=true;else if(temp<=27)outputs.fan=false;
+ if(explain){
+  const notes=[];
+  if(beforeLamp!==!!outputs.lamp)notes.push('Light '+(outputs.lamp?'on at or below 1600 ADC':'off at or above 2000 ADC'));
+  if(beforeFan!==!!outputs.fan)notes.push('Fan '+(outputs.fan?'on at or above 29 °C':'off at or below 27 °C'));
+  if(notes.length)say(notes.join(' · ')+'.');
+ }
+
+}
+function setMode(value){mode=value;automatic();say(mode+' mode selected.');render()}
+function showcase(id){
+ const elapsed=30-Math.ceil((demoUntil-Date.now())/1000);
+ return id==='lamp'?elapsed<12:id==='fan'?elapsed>=8&&elapsed<23:id==='door'||id==='buzzer'?elapsed>=20&&elapsed<26:false;
+}
+function startDemo(id){
+ meter(0);
+
+ demoPart=id;demoUntil=Date.now()+30000;$('clock').textContent='30 seconds remaining';
+ say(id==='all'?'Showcase running. The light, fan and motion response appear in sequence.':'Component demonstration running.');render();
+}
+function selectPart(id){
+ const [,name,role]=parts.find(([key])=>key===id);selected=id;
+ $('role').textContent=name+' — '+role;
+ for(const button of document.querySelectorAll('.parts button'))button.setAttribute('aria-pressed',String(button.dataset.part===id));
+ startDemo(id);
+ const related={ldr:'lamp',dht:'fan',pir:'door'};
+ if(related[id]){demoPart=related[id];say(name+' demonstration · watch the '+related[id]+' respond.');render()}
+
+}
+function tick(now=Date.now()){
+ if(doorUntil&&now>=doorUntil){outputs.door=false;doorUntil=0;render()}
+ if(beepUntil&&now>=beepUntil){outputs.buzzer=false;beepUntil=0;render()}
+ if(demoUntil){const seconds=Math.max(0,Math.ceil((demoUntil-now)/1000));meter(30-seconds);$('clock').textContent=seconds?seconds+' seconds remaining':'Demo complete';if(demoPart==='all'&&seconds)render();if(!seconds){demoUntil=0;demoPart=null;selected='';document.querySelectorAll('.parts button').forEach(button=>button.setAttribute('aria-pressed','false'));say('30-second demo complete.');render()}}
+}
+function reset(){history.length=0;meter(0);outputs={};motion=false;$('motion').textContent='No motion event';$('motion').setAttribute('aria-pressed','false');demoUntil=doorUntil=beepUntil=0;demoPart=null;selected='';$('light').value=2400;$('temp').value=28;$('humidity').value=55;$('clock').textContent='30 seconds ready';$('role').textContent='Select a component to see its role.';document.querySelectorAll('.parts button').forEach(button=>button.setAttribute('aria-pressed','false'));setMode('LOCAL')}
+$('parts').innerHTML=parts.map(([id,name])=>'<button data-part="'+id+'" aria-pressed="false">'+(id==='buzzer'?'<span aria-hidden="true">♪ </span>':'<img src="part-'+id+'.jpg" alt="">')+name+'</button>').join('');
+$('markers').innerHTML=parts.map(([id,name,,x,y],i)=>'<button class="mark" data-part="'+id+'" aria-label="'+name+'" style="left:'+x+'%;top:'+y+'%">'+(i+1)+'</button>').join('');
+document.querySelectorAll('[data-part]').forEach(button=>button.onclick=()=>selectPart(button.dataset.part));
+$('modes').innerHTML=['LOCAL','REMOTE','AUTO'].map(value=>'<button data-mode="'+value+'">'+value+'</button>').join('');
+document.querySelectorAll('[data-mode]').forEach(button=>button.onclick=()=>setMode(button.dataset.mode));
+function command(code,source){
+ if(code==='S'){say(source+' · '+$('lcd').textContent.replace('\n',' · '));return true}
+ if(mode!=='REMOTE'){say('Output blocked. Select REMOTE first.');return false}
+ if(code==='B'){outputs.buzzer=true;beepUntil=Date.now()+150}
+ else{
+  const id={1:'lamp',0:'lamp',D:'door',d:'door',F:'fan',f:'fan'}[code];
+  outputs[id]=['1','D','F'].includes(code);
+ }
+ say(source+' · '+code+' applied.');render();return true;
+}
+document.querySelectorAll('[data-command]').forEach(button=>button.onclick=()=>command(button.dataset.command,$('transport').value));
+$('local').onclick=()=>{setMode('LOCAL');outputs.lamp=!outputs.lamp;say('LOCAL button toggled the room light.');render()};
+for(const [id,input,value] of [['bright','light',2400],['dark','light',1000],['warm','temp',32]])$(id).onclick=()=>{$(input).value=value;say('Room condition changed.');automatic(true);render()};
+for(const id of ['light','temp','humidity'])$(id).oninput=()=>{automatic(true);render()};
+let motion=false;
+$('motion').onclick=()=>{
+ motion=!motion;$('motion').setAttribute('aria-pressed',String(motion));$('motion').textContent=motion?'Motion event detected':'No motion event';
+ if(!motion){say('PIR signal reset.');return}
+ if(mode==='AUTO'){outputs.door=outputs.buzzer=true;doorUntil=Date.now()+4000;beepUntil=Date.now()+150;say('Motion detected. Door opened and buzzer signalled.')}else say('Motion detected. AUTO mode applies the door rule.');render()};
+$('demo').onclick=()=>startDemo('all');$('reset').onclick=reset;
+$('lesson').innerHTML=lessons.map(([name],i)=>'<option value="'+i+'">Activity '+(i+1)+' · '+name+'</option>').join('');
+const requestedActivity = new URLSearchParams(location.search).get('activity');
+$('lesson').value=requestedActivity!==null&&/^\d$/.test(requestedActivity)?requestedActivity:'9';
+$('lesson').onchange=()=>{const [,tip,mode]=lessons[Number($('lesson').value)];$('tip').textContent=tip;setMode(mode);progress()};
+
+</script><script src="energy.js"></script></html>
